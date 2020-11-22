@@ -181,7 +181,7 @@ void CellLib::parse(string lib_path)
 
                                     getline(lib, table_buffer, ';');
                                     regex one_row_reg(
-                                        ".*?\"\\s*(\\S+?)\\s*\"");  // "0,1,2,3"
+                                        "\"\\s*(\\S+?)\\s*\"");  // "0,1,2,3"
 
                                     while (regex_search(table_buffer, table_m,
                                                         one_row_reg)) {
