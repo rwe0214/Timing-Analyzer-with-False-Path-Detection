@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     char n_path[1024] = "testdata/c17.v", p_path[1024] = "testdata/c17.pat",
          l_path[1024] = "lib/test_lib.lib";
     int opt;
-    while ((opt = getopt(argc - 1, argv + 1, "p:l:h")) != -1) {
+    while ((opt = getopt(argc - 1, argv + 1, "p:l:")) != -1) {
         switch (opt) {
         case 'p':
             strncpy(p_path, optarg, sizeof(p_path));
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
         case 'l':
             strncpy(l_path, optarg, sizeof(l_path));
             break;
-        default:
+		default:
             fprintf(
                 stderr,
                 "usage: %s netlist_file [-h] [-p input.pat] [-l testlib.lib]\n",
@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 
     if (argc != 6 || optind != 5) {
         fprintf(stderr,
-                "usage: %s netlist_file [-h] [-p input.pat] [-l testlib.lib]\n",
+                "usage: %s netlist_file [-p input.pat] [-l testlib.lib]\n",
                 argv[0]);
         exit(EXIT_FAILURE);
     }

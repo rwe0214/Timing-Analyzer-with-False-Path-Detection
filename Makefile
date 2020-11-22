@@ -6,7 +6,7 @@ CFLAGS	=-std=c++11 -g -Wall
 
 SRCS = $(wildcard $(SRCDIR)/*.cpp)
 OBJS = $(patsubst $(SRCDIR)/%.cpp, $(OUTDIR)/%.o, $(SRCS)) 
-EXE = hw2.o
+EXE = 0856090.o
 NETLIST1 = testdata/c17.v
 NETLIST2 = testdata/c432.v
 NETLIST3 = testdata/example.v
