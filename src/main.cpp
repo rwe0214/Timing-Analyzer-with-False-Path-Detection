@@ -2,6 +2,7 @@
 #include <getopt.h>
 #include <string.h>
 
+#include <algorithm>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
