@@ -13,13 +13,13 @@ NETLIST3 = testdata/example.v
 PATTERN1 = testdata/c17.pat
 PATTERN2 = testdata/c432.pat
 PATTERN3 = testdata/example.pat
-ANS1 = Results/c17.txt
-ANS2 = Results/c432.txt
-ANS3 = Results/module.txt
+ANS1 = Ans/c17.txt
+ANS2 = Ans/c432.txt
+ANS3 = Ans/module.txt
 CELLLIB = lib/test_lib.lib
-OUTPUT1 = 0856090_c17.txt
-OUTPUT2 = 0856090_c432.txt
-OUTPUT3 = 0856090_example.txt
+OUTPUT1 = Results/0856090_c17.txt
+OUTPUT2 = Results/0856090_c432.txt
+OUTPUT3 = Results/0856090_example.txt
 
 OUTPUTS = 0856090_*
 
@@ -31,7 +31,7 @@ $(EXE) : $(OBJS)
 $(OUTDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 	
-SHELL_HACK := $(shell mkdir -p $(OUTDIR))
+SHELL_HACK := $(shell mkdir -p $(OUTDIR) Results)
 
 .PHONY: all clean run debug OUT
 
@@ -53,5 +53,5 @@ debug:
 	gdb -q --args $(EXE) $(NETLIST1) -p $(PATTERN1) -l $(CELLLIB)
 
 clean:
-	rm -f $(OUTDIR)/* ./$(EXE) ./$(OUTPUTS)
-	rmdir ./$(OUTDIR)
+	rm -f $(OUTDIR)/* ./$(EXE) ./$(OUTPUTS) Results/*
+	rmdir ./$(OUTDIR) ./Results

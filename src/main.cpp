@@ -118,8 +118,9 @@ int main(int argc, char *argv[])
     // because the problem of sensitzable path, it needs the delay from the input reg of a gate
     // using a longest path to find the delay, and label the edge which could be discard
     // finally, do longest path again and get the answer
+
     ofstream output_stream(
-        "0856090_" +
+        "Results/0856090_" +
         netlist_path.substr(netlist_path.find_last_of("/") + 1,
                             netlist_path.find_last_of(".") -
                                 netlist_path.find_last_of("/") - 1) +
