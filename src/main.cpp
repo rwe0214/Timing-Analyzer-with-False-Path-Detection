@@ -2,15 +2,16 @@
 #include <getopt.h>
 #include <string.h>
 
+#include <cmath>
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <queue>
+#include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <cmath>
 
 #include "Graph.h"
 #include "LibTable.h"
@@ -57,7 +58,7 @@ int main(int argc, char *argv[])
         case 'l':
             strncpy(l_path, optarg, sizeof(l_path));
             break;
-		default:
+        default:
             fprintf(
                 stderr,
                 "usage: %s netlist_file [-h] [-p input.pat] [-l testlib.lib]\n",
@@ -85,7 +86,7 @@ int main(int argc, char *argv[])
     strncpy(n_path, argv[1], sizeof(p_path));
 
     string netlist_path(n_path), pattern_path(p_path), lib_path(l_path);
-    
+
     // parse cell library
     cell_lib lib;
     lib.parse(lib_path);
@@ -115,9 +116,10 @@ int main(int argc, char *argv[])
     parsePattern(pattern_path);
 
     // compute delay for each pattern and output
-    // because the problem of sensitzable path, it needs the delay from the input reg of a gate
-    // using a longest path to find the delay, and label the edge which could be discard
-    // finally, do longest path again and get the answer
+    // because the problem of sensitzable path, it needs the delay from the
+    // input reg of a gate using a longest path to find the delay, and label the
+    // edge which could be discard finally, do longest path again and get the
+    // answer
 
     ofstream output_stream(
         "Results/0856090_" +
@@ -385,12 +387,19 @@ int main(int argc, char *argv[])
         // get the longest sensitizable path and delay
         FindLongestPath(n_adj, v2id.at("START"), prev, true, output_stream);
         output_stream << endl;
+        vector<string> sorted_gate;
         for (unsigned int i = 0; i < n_adj.size(); i++) {
-            if (cells[v2tid[id2v[i]]].type == VERTEX_TYPE::GATE)
-                output_stream << id2v[i] << " " << patterns[n].at(id2v[i])
-                              << " " << pd[id2v[i]] << " " << orft[id2v[i]]
-                              << "\n";
+            if (cells[v2tid[id2v[i]]].type == VERTEX_TYPE::GATE) {
+                sorted_gate.push_back(id2v[i]);
+            }
         }
+        sort(sorted_gate.begin(), sorted_gate.end(),
+             [&](string a, string b) -> bool {
+                 return stoi(a.substr(1)) < stoi(b.substr(1));
+             });
+        for (auto i = sorted_gate.begin(); i != sorted_gate.end(); i++)
+            output_stream << *i << " " << patterns[n].at(*i) << " " << pd[*i]
+                          << " " << orft[*i] << "\n";
         output_stream << endl;
     }
     output_stream.close();
@@ -465,7 +474,7 @@ double linearPolation2D(double u1,
 vector<edge> getInEdge(vector<vector<edge>> adj, int id)
 {
     vector<edge> ret;
-    for (int i = 0; i < (int)adj.size(); i++) {
+    for (int i = 0; i < (int) adj.size(); i++) {
         if (i == id)
             continue;
         for (unsigned int j = 0; j < adj[i].size(); j++) {
